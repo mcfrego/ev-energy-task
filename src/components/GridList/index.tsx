@@ -1,11 +1,11 @@
 import { FlatList, StyleSheet, Text, ViewStyle } from 'react-native'
 
-import { GridItem } from '../'
+import GridItem from '../GridItem'
 
 export interface Props {
   title: string
   data: any | undefined
-  onElementClick: (id: number) => void
+  onElementClick: (id: number, title: string) => void
   style?: ViewStyle
 }
 

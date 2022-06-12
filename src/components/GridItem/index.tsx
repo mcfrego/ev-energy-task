@@ -2,12 +2,14 @@ import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 
 export interface Props {
   data: any
-  onElementClick: (id: number) => void
+  onElementClick: (id: number, title: string) => void
 }
 
 const GridItem = function ({ data, onElementClick }: Props) {
   return (
-    <TouchableOpacity style={styles.container} onPress={() => onElementClick(data.ID)}>
+    <TouchableOpacity
+      style={styles.container}
+      onPress={() => onElementClick(data.ID, data.OperatorInfo.Title)}>
       <View>
         <Text style={styles.title}>{data.OperatorInfo.Title}</Text>
         <Text

@@ -1,8 +1,9 @@
 import { StatusBar } from 'expo-status-bar'
 import { useEffect } from 'react'
-import { SafeAreaView, StyleSheet, Text, View } from 'react-native'
+import { Alert, SafeAreaView, StyleSheet, Text, View } from 'react-native'
 
 import { useAppDispatch } from '../../../shared/redux/hooks'
+import { usePostChargingSessionMutation } from '../../../shared/redux/services/evenergyApi'
 import { useGetPoiQuery } from '../../../shared/redux/services/ocmApi'
 import { homeLaunched } from '../../../shared/redux/slices/app'
 import { GridList } from '../../components'
@@ -10,6 +11,18 @@ import { GridList } from '../../components'
 const Home = function () {
   const dispatch = useAppDispatch()
   const { data, error, isLoading } = useGetPoiQuery()
+  const [useMutation, useMutationResult] = usePostChargingSessionMutation()
+
+  const onElementClick = (id: number, title: string) => {
+    Alert.alert(`${title} selected!`, 'Are you sure? You will start immediately to charge!', [
+      { text: 'Cancel', style: 'cancel', onPress: () => {} },
+      {
+        text: 'Start charging!',
+        onPress: () => useMutation({ user: 1, card_id: 1, charger_id: id }),
+      },
+      {},
+    ])
+  }
 
   useEffect(() => {
     dispatch(homeLaunched())
@@ -20,7 +33,7 @@ const Home = function () {
       <View style={styles.container}>
         <GridList
           data={data}
-          onElementClick={() => {}}
+          onElementClick={onElementClick}
           title="Result list:"
           style={styles.gridList}
         />
