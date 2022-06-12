@@ -13,10 +13,12 @@ https://user-images.githubusercontent.com/12646766/173253777-2eb03b49-d2e9-4653-
 
 ## Tech used
 
+- Typescript
 - Redux logic changed to Redux Toolkit and RTK Query:
   - Redux Toolkit slices for managing the store
   - RTK Query for fetching and caching data from data OCM server
   - RTK Query for POST request to EV Energy server
+- Eslint, prettier
 
 
 ## Remaining stuff / Brainstorming
