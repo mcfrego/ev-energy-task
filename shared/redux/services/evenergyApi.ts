@@ -9,7 +9,7 @@ export interface SessionState {
 export const evenergyApi = createApi({
   reducerPath: 'evenergyApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: 'https://example.ev.energy',
+    baseUrl: process.env.API_EVENERGY_BASE_URL,
   }),
   endpoints: (builder) => ({
     postChargingSession: builder.mutation<SessionState, SessionState>({
