@@ -1,36 +1,47 @@
 import { StatusBar } from 'expo-status-bar'
 import { useEffect } from 'react'
-import { Alert, SafeAreaView, StyleSheet, Text, View } from 'react-native'
+import { Alert, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 
-import { useAppDispatch } from '../../../shared/redux/hooks'
+import { useAppDispatch, useAppSelector } from '../../../shared/redux/hooks'
 import { usePostChargingSessionMutation } from '../../../shared/redux/services/evenergyApi'
 import { useGetPoiQuery } from '../../../shared/redux/services/ocmApi'
-import { homeLaunched } from '../../../shared/redux/slices/app'
-import { GridList } from '../../components'
+import {
+  homeLaunched,
+  removeCurrentSession,
+  setCurrentSession,
+} from '../../../shared/redux/slices/app'
+import { ChargingSession, GridList } from '../../components'
 
 const Home = function () {
   const dispatch = useAppDispatch()
-  const { data, error, isLoading } = useGetPoiQuery()
-  const [useMutation, useMutationResult] = usePostChargingSessionMutation()
+  const currentSession = useAppSelector((state) => state.app.currentSession)
+  const { data } = useGetPoiQuery()
+  const [useMutation] = usePostChargingSessionMutation()
+
+  useEffect(() => {
+    dispatch(homeLaunched())
+  }, [])
 
   const onElementClick = (id: number, title: string) => {
     Alert.alert(`${title} selected!`, 'Are you sure? You will start immediately to charge!', [
       { text: 'Cancel', style: 'cancel', onPress: () => {} },
       {
         text: 'Start charging!',
-        onPress: () => useMutation({ user: 1, card_id: 1, charger_id: id }),
+        onPress: () => {
+          useMutation({ user: 1, card_id: 1, charger_id: id })
+          dispatch(setCurrentSession(id))
+        },
       },
       {},
     ])
   }
 
-  useEffect(() => {
-    dispatch(homeLaunched())
-  }, [])
+  const onRemoveClick = () => dispatch(removeCurrentSession())
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <View style={styles.container}>
+        <ChargingSession data={currentSession} onRemove={onRemoveClick} />
         <GridList
           data={data}
           onElementClick={onElementClick}
