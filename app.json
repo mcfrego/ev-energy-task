@@ -1,0 +1,9 @@
+{
+  "expo": {
+    "name": "template-expo-typescript",
+    "slug": "template-expo-typescript",
+    "version": "1.0.0",
+    "assetBundlePatterns": ["**/*"]
+  },
+  "name": "template-expo-typescript"
+}
