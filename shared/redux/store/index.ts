@@ -1,5 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit'
 
+import { appSlice } from '../slices/app'
+
 let additionalMiddlewares = new Array()
 if (__DEV__) {
   const logger = require('redux-logger')
@@ -10,7 +12,9 @@ if (__DEV__) {
 }
 
 export const store = configureStore({
-  reducer: {},
+  reducer: {
+    [appSlice.name]: appSlice.reducer,
+  },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(...additionalMiddlewares),
 })
 
